@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Webpack App</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script defer="defer" src="main.js"></script>
+  </head>
+  <body>
+    <div class="tmodal">
+      <form action="" class="tmodal-content">
+        <h1>Create a task</h1>
+        <label for="tname">Task Name</label>
+        <input type="text" id="tname" name="task-name" />
+        <label for="tdesc">Description</label>
+        <textarea
+          name="task-description"
+          id="tdesc"
+          cols="30"
+          rows="5"
+        ></textarea>
+        <label for="tdate">Due Date</label>
+        <input type="datetime-local" id="tdate" name="task-due-date" />
+        <label for="important">Important</label>
+        <input type="checkbox" id="important" name="important" />
+        <label for="project-select">Assign to a project</label>
+        <select name="selected-project" id="project-select"></select>
+        <button class="tsubmit" type="button">Submit</button>
+      </form>
+    </div>
+    <div class="layout">
+      <div class="main-screen"></div>
+      <div class="sidebar">
+        <button class="task-button">Create a task</button>
+      </div>
+    </div>
+  <script defer src="main.js"></script></body>
+</html>
