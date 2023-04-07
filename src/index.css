@@ -11,6 +11,8 @@ body{
     grid-column:1/2;
     border-right: 1px solid rgba(0, 0, 0, 0.3);
     height: 100vh;
+    display:flex;
+    flex-direction: column;
 }
 .tmodal{
     background-color: rgba(0, 0, 0, 0.7);
@@ -18,7 +20,7 @@ body{
     height: 100%;
     position:absolute;
     top: 0;
-    display:flex;
+    display:none;
     justify-content: center;
     align-items: center;
 }
@@ -45,4 +47,34 @@ input, select, textarea{
 }
 label{
     text-align: center;
+}
+
+.pmodal{
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.pmodal-content {
+    display: flex;
+    background-color: var(--background-clr);
+    flex-direction: column;
+    height: 30%;
+    width: 30%;
+    padding: 3%;
+    justify-content: space-around;
+    border-radius: 15px;
+    gap: 10px;
+}
+.sidebar-buttons{
+    display:flex;
+    width: 100%;
+}
+.sidebar-buttons button{
+    width: 50%;
+    height: 30px;
 }
