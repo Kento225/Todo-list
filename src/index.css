@@ -6,6 +6,8 @@ body{
 }
 .main-screen{
     grid-column: 2/3;
+    grid-row: 1/1;
+    height: 100%;
 }
 .sidebar{
     grid-column:1/2;
@@ -77,4 +79,15 @@ label{
 .sidebar-buttons button{
     width: 50%;
     height: 30px;
+}
+.project-div h3{
+    text-align: center;
+}
+.project-ul{
+    list-style-type: none;
+    margin-left: 20px ;
+    padding-left:0px ;
+}
+.project-ul li{
+    padding-left:10px ;
 }

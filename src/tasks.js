@@ -48,7 +48,10 @@ const task = {
 };
 taskArray.push(task);
 
-taskSubmitBtn.addEventListener("click", () => {
+taskSubmitBtn.addEventListener("click", (e) => {
+  if (tName.value === "" || tProject.value === "") {
+    return;
+  }
   const task = createTask(tName, tDesc, tDate, tImportant, tProject);
   taskArray.push(task);
   console.log(task, taskArray);
