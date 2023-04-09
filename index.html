@@ -4,14 +4,29 @@
     <meta charset="utf-8" />
     <title>Webpack App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <script defer="defer" src="main.js"></script>
   </head>
   <body>
+    <div class="pmodal">
+      <form action="" class="pmodal-content">
+        <h1>Create a project</h1>
+        <label for="pname">Project Name</label>
+        <input type="text" id="pname" name="project-name" required />
+        <label for="pdesc">Description</label>
+        <textarea
+          name="project-description"
+          id="pdesc"
+          cols="30"
+          rows="5"
+        ></textarea>
+        <button class="psubmit" type="submit">Submit</button>
+      </form>
+    </div>
+
     <div class="tmodal">
       <form action="" class="tmodal-content">
         <h1>Create a task</h1>
         <label for="tname">Task Name</label>
-        <input type="text" id="tname" name="task-name" />
+        <input type="text" id="tname" name="task-name" required />
         <label for="tdesc">Description</label>
         <textarea
           name="task-description"
@@ -22,16 +37,19 @@
         <label for="tdate">Due Date</label>
         <input type="datetime-local" id="tdate" name="task-due-date" />
         <label for="important">Important</label>
-        <input type="checkbox" id="important" name="important" />
+        <input type="checkbox" id="important" name="important" unchecked />
         <label for="project-select">Assign to a project</label>
-        <select name="selected-project" id="project-select"></select>
-        <button class="tsubmit" type="button">Submit</button>
+        <select name="selected-project" id="project-select" required></select>
+        <button class="tsubmit" type="submit">Submit</button>
       </form>
     </div>
     <div class="layout">
       <div class="main-screen"></div>
       <div class="sidebar">
-        <button class="task-button">Create a task</button>
+        <div class="sidebar-buttons">
+          <button class="task-button">Create a task</button>
+          <button class="project-button">Create a project</button>
+        </div>
       </div>
     </div>
   <script defer src="main.js"></script></body>
