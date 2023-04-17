@@ -2,12 +2,20 @@ import { modalClose } from "./modal-control";
 import { modalOpen } from "./modal-control";
 import { projectArray } from "./project";
 import { renderTask } from "./render";
+import { mainProjectDiv } from "./render";
+import { clearMainWindow } from "./render";
+import { taskCardDel } from "./render";
+
+export const taskArray = [];
+
 // Get all elements in task creation form
 const tName = document.querySelector("#tname");
 const tDesc = document.querySelector("#tdesc");
 const tDate = document.querySelector("#tdate");
 const tImportant = document.querySelector("#important");
 const tProject = document.querySelector("#project-select");
+const tBackgroundClr = document.querySelector("#background-clr");
+const tTextClr = document.querySelector("#text-clr");
 
 // Get the task modal element and the form within it
 const taskModal = document.querySelector(".tmodal");
@@ -19,30 +27,26 @@ const tFormArr = tForm.elements;
 // Select element inside the task creation form for selecting a project
 const projectSelect = document.querySelector("#project-select");
 
-export function log() {
-  console.log(tName);
-  console.log(taskArray);
-}
-
 // Creates an object for a task
 function createTask(tName, tDesc, tDate, tImportant, tProject) {
   return {
     name: tName.value,
     desc: tDesc.value,
     date: tDate.value,
-    important: tImportant.checked,
+    backgroundClr: tBackgroundClr.value,
+    textClr: tTextClr.value,
     project: tProject.value,
     rendered: false,
   };
 }
 
 const taskSubmitBtn = document.querySelector(".tsubmit");
-const taskArray = [];
 const task = {
   name: "Example",
   desc: "Example",
-  date: "Example",
-  important: true,
+  date: "2023-04-27",
+  backgroundClr: "#d0e0e3",
+  textClr: "#000000",
   project: "Example",
   rendered: false,
 };
@@ -54,9 +58,9 @@ taskSubmitBtn.addEventListener("click", (e) => {
   }
   const task = createTask(tName, tDesc, tDate, tImportant, tProject);
   taskArray.push(task);
-  console.log(task, taskArray);
   renderTask(taskArray);
   modalClose(taskModal, tFormArr);
+  console.log(taskArray[1].backgroundClr);
 });
 
 const taskMdlOpen = document.querySelector(".task-button");
@@ -64,11 +68,11 @@ const taskMdlOpen = document.querySelector(".task-button");
 taskMdlOpen.addEventListener("click", (e) => {
   modalOpen(taskModal);
   projectOptions();
+  clearMainWindow();
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === taskModal && e.target !== tForm) {
-    console.log(e);
     modalClose(taskModal, tFormArr);
   } else {
     return;
@@ -88,4 +92,28 @@ const projectOptions = () => {
   }
 };
 
+export function deleteTask(elem) {
+  for (let i = 0; i < taskArray.length; i++) {
+    if (elem.target.dataset.cardToDelete === taskArray[i].name) {
+      taskArray.splice(i, 1);
+    }
+  }
+  for (let i = 0; i < projectArray.length; i++) {
+    if (projectArray[i].tasks.includes(elem.target.dataset.cardToDelete)) {
+      const index = projectArray[i].tasks.indexOf(
+        elem.target.dataset.cardToDelete
+      );
+      projectArray[i].tasks.splice(index, 1);
+    }
+  }
+  const taskNodeList = document.querySelectorAll(".task-card");
+  for (let i = 0; i < taskNodeList.length; i++) {
+    if (taskNodeList[i].dataset.task === elem.target.dataset.cardToDelete) {
+      taskNodeList[i].remove();
+    }
+  }
+}
+taskCardDel.addEventListener("click", (e) => {
+  deleteTask(e);
+});
 renderTask(taskArray);

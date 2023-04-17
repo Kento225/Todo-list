@@ -4,6 +4,12 @@
     <meta charset="utf-8" />
     <title>Webpack App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="pmodal">
@@ -17,6 +23,7 @@
           id="pdesc"
           cols="30"
           rows="5"
+          maxlength="200"
         ></textarea>
         <button class="psubmit" type="submit">Submit</button>
       </form>
@@ -33,11 +40,20 @@
           id="tdesc"
           cols="30"
           rows="5"
+          maxlength="100"
         ></textarea>
         <label for="tdate">Due Date</label>
-        <input type="datetime-local" id="tdate" name="task-due-date" />
-        <label for="important">Important</label>
-        <input type="checkbox" id="important" name="important" unchecked />
+        <input type="date" id="tdate" name="task-due-date" />
+        <div class="color-div">
+          <div class="background-color-div">
+            <label for="background-clr">Background Color</label>
+            <input type="color" id="background-clr" name="background-color" />
+          </div>
+          <div class="text-color-div">
+            <label for="text-clr">Text Color</label>
+            <input type="color" id="text-clr" name="text-color" />
+          </div>
+        </div>
         <label for="project-select">Assign to a project</label>
         <select name="selected-project" id="project-select" required></select>
         <button class="tsubmit" type="submit">Submit</button>

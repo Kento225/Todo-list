@@ -1,7 +1,8 @@
 import { modalClose } from "./modal-control";
 import { modalOpen } from "./modal-control";
 import { renderProjectSb } from "./render";
-import { renderProjectMain } from "./render";
+import { taskArray } from "./tasks";
+import { clearMainWindow } from "./render";
 
 // Get all elements in project creation form
 const pName = document.querySelector("#pname");
@@ -15,7 +16,6 @@ const pForm = document.querySelector(".pmodal-content");
 
 // Get project modal form elements, and put them into an array
 const pFormArr = pForm.elements;
-console.log(pFormArr);
 
 // Example project object
 const project = {
@@ -44,18 +44,17 @@ projectSubmitBtn.addEventListener("click", (e) => {
   }
   const project = createProject(pName, pDesc);
   projectArray.push(project);
-  console.log(project, projectArray);
   modalClose(projectModal, pFormArr);
-  renderProjectSb(projectArray);
+  renderProjectSb(projectArray, taskArray);
 });
 
 projectMdlOpen.addEventListener("click", (e) => {
   modalOpen(projectModal);
+  clearMainWindow();
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === projectModal && e.target !== pForm) {
-    console.log(e);
     modalClose(projectModal, pFormArr);
   } else {
     return;
@@ -63,13 +62,3 @@ window.addEventListener("click", (e) => {
 });
 
 renderProjectSb(projectArray);
-
-const sidebarProjects = document.querySelectorAll(".project-div");
-
-console.log(sidebarProjects);
-sidebarProjects.forEach((element) =>
-  element.addEventListener("click", (e, projectArray) => {
-    console.log(e.target.dataset.projectName);
-    renderProjectMain(e, projectArray);
-  })
-);

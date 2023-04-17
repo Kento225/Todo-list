@@ -1,7 +1,8 @@
 import { projectArray } from "./project";
+import { taskArray } from "./tasks";
 
-const mainScreen = document.querySelector(".main-screen");
 const sidebar = document.querySelector(".sidebar");
+export const mainScreen = document.querySelector(".main-screen");
 
 export function renderProjectSb(projectArray) {
   for (let i = 0; i < projectArray.length; i++)
@@ -24,9 +25,19 @@ export function renderProjectSb(projectArray) {
       projectDiv.appendChild(projectUl);
 
       projectArray[i].rendered = true;
+
+      const sidebarProjects = document.querySelectorAll(".project-div");
+      sidebarProjects.forEach((element) =>
+        element.addEventListener("click", (e) => {
+          renderProjectMain(e.currentTarget);
+        })
+      );
     }
 }
 
+export function clearMainWindow() {
+  mainScreen.innerHTML = "";
+}
 export function renderTask(taskArray) {
   // Puts all unordered lists of projects into an array
   const projectNodeList = document.querySelectorAll(".project-ul");
@@ -37,14 +48,13 @@ export function renderTask(taskArray) {
     //Creates a list item for a task, and appends it into project list
     const taskLi = document.createElement("li");
     taskLi.classList.add("task-li");
-    if (taskArray[i].important === true) {
-      taskLi.style.borderLeft = "solid 5px orange";
-    }
     projectArray.forEach((element) => {
       if (element.name === taskArray[i].project) {
         element.tasks.push(taskArray[i].name);
       }
     });
+    taskLi.style.backgroundColor = taskArray[i].backgroundClr;
+    taskLi.style.color = taskArray[i].textClr;
     taskLi.textContent = `${taskArray[i].name}`;
     projectNodeList.forEach((element) => {
       if (element.dataset.projectName === taskArray[i].project) {
@@ -56,23 +66,78 @@ export function renderTask(taskArray) {
   }
 }
 
-export function renderProjectMain(event, projectArray) {
+function renderProjectMain(elem) {
+  mainScreen.innerHTML = "";
   const mainProjectDiv = document.createElement("div");
   mainProjectDiv.classList.add("main-project-div");
   mainScreen.appendChild(mainProjectDiv);
 
   const mainProjectHeader = document.createElement("h1");
   mainProjectHeader.classList.add("main-project-header");
-  mainProjectHeader.textContent = `${event.target.dataset.projectName}`;
-  mainProjectDiv.appendChild(mainProjectHeader);
-
-  const mainProjectDesc = document.createElement("div");
-  mainProjectDesc.classList.add("main-project-desc");
-  const descMain = projectArray.forEach((element) => {
-    if (element.name === event.target.dataset.projectName) {
-      return element.desc;
+  projectArray.forEach((element) => {
+    if (element.name === elem.dataset.projectName) {
+      const pNameMain = element.name;
+      mainProjectHeader.textContent = pNameMain;
+      mainProjectDiv.appendChild(mainProjectHeader);
     }
   });
-  mainProjectDesc.textContent = descMain;
-  mainProjectDiv.appendChild(mainProjectDesc);
+  const mainProjectDesc = document.createElement("div");
+  mainProjectDesc.classList.add("main-project-desc");
+  projectArray.forEach((element) => {
+    if (element.name === elem.dataset.projectName) {
+      const pDescMain = element.desc;
+      mainProjectDesc.textContent = pDescMain;
+      mainProjectDiv.appendChild(mainProjectDesc);
+    }
+  });
+  renderTaskCard(projectArray, taskArray, mainProjectDiv, elem);
+}
+
+export const taskCardDel = document.createElement("div");
+
+export function renderTaskCard(projectArray, taskArray, mainProjectDiv, elem) {
+  const taskCardDiv = document.createElement("div");
+  taskCardDiv.classList.add("task-card-div");
+
+  const tasksToRender = [];
+  for (let i = 0; i < projectArray.length; i++) {
+    if (projectArray[i].name === elem.dataset.projectName) {
+      tasksToRender.push(projectArray[i].tasks);
+    }
+  }
+  for (let j = 0; j < tasksToRender[0].length; j++) {
+    console.log(tasksToRender);
+    const index = taskArray.findIndex(
+      (element) => element.name === tasksToRender[0][j]
+    );
+    console.log(index);
+    const taskCard = document.createElement("div");
+    taskCard.classList.add("task-card");
+    taskCard.dataset.task = taskArray[index].name;
+    taskCard.style.backgroundColor = taskArray[index].backgroundClr;
+    taskCard.style.color = taskArray[index].textClr;
+
+    const taskCardHeader = document.createElement("h3");
+    taskCardHeader.classList.add("task-card-header");
+    taskCardHeader.textContent = taskArray[index].name;
+
+    const taskCardDesc = document.createElement("p");
+    taskCardDesc.classList.add("task-card-desc");
+    taskCardDesc.textContent = taskArray[index].desc;
+
+    const taskCardDate = document.createElement("p");
+    taskCardDate.classList.add("task-card-date");
+    taskCardDate.textContent = taskArray[index].date;
+
+    taskCardDel.classList.add("task-card-del");
+    taskCardDel.textContent = "X";
+    taskCardDel.dataset.cardToDelete = taskArray[index].name;
+
+    taskCardDiv.appendChild(taskCard);
+    taskCard.appendChild(taskCardHeader);
+    taskCard.appendChild(taskCardDesc);
+    taskCard.appendChild(taskCardDate);
+    taskCard.appendChild(taskCardDel);
+    mainProjectDiv.appendChild(taskCardDiv);
+  }
 }
