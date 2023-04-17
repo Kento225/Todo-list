@@ -136,4 +136,5 @@ label{
     left: 50%;
     top:15%;
     cursor: pointer;
+    border-radius: 10px;
 }

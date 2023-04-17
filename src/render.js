@@ -1,5 +1,6 @@
 import { projectArray } from "./project";
 import { taskArray } from "./tasks";
+import { deleteTask } from "./tasks";
 
 const sidebar = document.querySelector(".sidebar");
 export const mainScreen = document.querySelector(".main-screen");
@@ -30,6 +31,12 @@ export function renderProjectSb(projectArray) {
       sidebarProjects.forEach((element) =>
         element.addEventListener("click", (e) => {
           renderProjectMain(e.currentTarget);
+          const taskDeletes = document.querySelectorAll(".task-card-del");
+          taskDeletes.forEach((element) =>
+            element.addEventListener("click", (e) => {
+              deleteTask(e);
+            })
+          );
         })
       );
     }
@@ -53,6 +60,7 @@ export function renderTask(taskArray) {
         element.tasks.push(taskArray[i].name);
       }
     });
+    taskLi.dataset.sbTask = taskArray[i].name;
     taskLi.style.backgroundColor = taskArray[i].backgroundClr;
     taskLi.style.color = taskArray[i].textClr;
     taskLi.textContent = `${taskArray[i].name}`;
@@ -93,8 +101,6 @@ function renderProjectMain(elem) {
   renderTaskCard(projectArray, taskArray, mainProjectDiv, elem);
 }
 
-export const taskCardDel = document.createElement("div");
-
 export function renderTaskCard(projectArray, taskArray, mainProjectDiv, elem) {
   const taskCardDiv = document.createElement("div");
   taskCardDiv.classList.add("task-card-div");
@@ -129,6 +135,7 @@ export function renderTaskCard(projectArray, taskArray, mainProjectDiv, elem) {
     taskCardDate.classList.add("task-card-date");
     taskCardDate.textContent = taskArray[index].date;
 
+    const taskCardDel = document.createElement("div");
     taskCardDel.classList.add("task-card-del");
     taskCardDel.textContent = "X";
     taskCardDel.dataset.cardToDelete = taskArray[index].name;

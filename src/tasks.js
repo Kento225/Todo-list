@@ -112,8 +112,11 @@ export function deleteTask(elem) {
       taskNodeList[i].remove();
     }
   }
+  const sbTaskNodeList = document.querySelectorAll(".task-li");
+  for (let i = 0; i < sbTaskNodeList.length; i++) {
+    if (elem.target.dataset.cardToDelete === sbTaskNodeList[i].dataset.sbTask) {
+      sbTaskNodeList[i].remove();
+    }
+  }
 }
-taskCardDel.addEventListener("click", (e) => {
-  deleteTask(e);
-});
 renderTask(taskArray);
