@@ -2,11 +2,11 @@ import { modalClose } from "./modal-control";
 import { modalOpen } from "./modal-control";
 import { projectArray } from "./project";
 import { renderTask } from "./render";
-import { mainProjectDiv } from "./render";
 import { clearMainWindow } from "./render";
-import { taskCardDel } from "./render";
+import { checkStorage } from "./project";
+import { updateStorage } from "./project";
 
-export const taskArray = [];
+export const taskArray = JSON.parse(localStorage.getItem("tasks") || "[]");
 
 // Get all elements in task creation form
 const tName = document.querySelector("#tname");
@@ -40,7 +40,6 @@ function createTask(tName, tDesc, tDate, tImportant, tProject) {
   };
 }
 
-const taskSubmitBtn = document.querySelector(".tsubmit");
 const task = {
   name: "Example",
   desc: "Example",
@@ -50,18 +49,27 @@ const task = {
   project: "Example",
   rendered: false,
 };
-taskArray.push(task);
+
+checkStorage(taskArray, "tasks", task);
+
+console.log(taskArray);
+
+const taskSubmitBtn = document.querySelector(".tsubmit");
 
 taskSubmitBtn.addEventListener("click", (e) => {
   if (tName.value === "" || tProject.value === "") {
     return;
   }
   const task = createTask(tName, tDesc, tDate, tImportant, tProject);
-  taskArray.push(task);
+  addTaskArray(task);
   renderTask(taskArray);
   modalClose(taskModal, tFormArr);
-  console.log(taskArray[1].backgroundClr);
+  updateStorage(taskArray, "tasks");
 });
+
+const addTaskArray = (task) => {
+  taskArray.push(task);
+};
 
 const taskMdlOpen = document.querySelector(".task-button");
 
@@ -81,14 +89,13 @@ window.addEventListener("click", (e) => {
 
 // Takes all existing projects and puts them into project selection in task form
 const projectOptions = () => {
+  const options = document.querySelectorAll("option");
+  options.forEach((element) => element.remove());
   for (let i = 0; i < projectArray.length; i++) {
-    if (projectArray[i].renderedOption === false) {
-      const projectOption = document.createElement("option");
-      projectOption.value = `${projectArray[i].name}`;
-      projectOption.textContent = `${projectArray[i].name}`;
-      projectSelect.appendChild(projectOption);
-      projectArray[i].renderedOption = true;
-    }
+    const projectOption = document.createElement("option");
+    projectOption.value = `${projectArray[i].name}`;
+    projectOption.textContent = `${projectArray[i].name}`;
+    projectSelect.appendChild(projectOption);
   }
 };
 
@@ -118,5 +125,9 @@ export function deleteTask(elem) {
       sbTaskNodeList[i].remove();
     }
   }
+  updateStorage(taskArray, "tasks");
 }
+
+taskArray.forEach((element) => (element.rendered = false));
+
 renderTask(taskArray);

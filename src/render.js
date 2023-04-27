@@ -1,6 +1,7 @@
 import { projectArray } from "./project";
 import { taskArray } from "./tasks";
 import { deleteTask } from "./tasks";
+import { projectDelete } from "./project";
 
 const sidebar = document.querySelector(".sidebar");
 export const mainScreen = document.querySelector(".main-screen");
@@ -25,15 +26,29 @@ export function renderProjectSb(projectArray) {
       projectUl.dataset.projectName = `${projectArray[i].name}`;
       projectDiv.appendChild(projectUl);
 
+      const projectDeleteBtn = document.createElement("div");
+      projectDeleteBtn.classList.add("project-del");
+      projectDeleteBtn.dataset.delProjectName = `${projectArray[i].name}`;
+      projectDeleteBtn.textContent = "X";
+      projectDiv.appendChild(projectDeleteBtn);
+      projectDeleteBtn.addEventListener("click", (e) => {
+        projectDelete(e);
+        e.stopPropagation();
+      });
+
       projectArray[i].rendered = true;
 
+      //Adds eventListeners to projects on the sidebar
       const sidebarProjects = document.querySelectorAll(".project-div");
       sidebarProjects.forEach((element) =>
         element.addEventListener("click", (e) => {
+          //Renders a clicked project on the main screen
           renderProjectMain(e.currentTarget);
+          //Adds eventListeners to delete buttons on rendered tasks
           const taskDeletes = document.querySelectorAll(".task-card-del");
           taskDeletes.forEach((element) =>
             element.addEventListener("click", (e) => {
+              //Deletes a clicked task from DOM and all the arrays its in
               deleteTask(e);
             })
           );
@@ -57,7 +72,10 @@ export function renderTask(taskArray) {
     taskLi.classList.add("task-li");
     projectArray.forEach((element) => {
       if (element.name === taskArray[i].project) {
-        element.tasks.push(taskArray[i].name);
+        if (element.tasks.includes(taskArray[i]) === false) {
+          console.log("dododod");
+          element.tasks.push(taskArray[i]);
+        }
       }
     });
     taskLi.dataset.sbTask = taskArray[i].name;
@@ -74,6 +92,7 @@ export function renderTask(taskArray) {
   }
 }
 
+//Renders a clicked project on the main screen
 function renderProjectMain(elem) {
   mainScreen.innerHTML = "";
   const mainProjectDiv = document.createElement("div");
@@ -101,50 +120,44 @@ function renderProjectMain(elem) {
   renderTaskCard(projectArray, taskArray, mainProjectDiv, elem);
 }
 
+//Renders tasks that are linked to the project on main screen
 export function renderTaskCard(projectArray, taskArray, mainProjectDiv, elem) {
   const taskCardDiv = document.createElement("div");
   taskCardDiv.classList.add("task-card-div");
 
-  const tasksToRender = [];
   for (let i = 0; i < projectArray.length; i++) {
     if (projectArray[i].name === elem.dataset.projectName) {
-      tasksToRender.push(projectArray[i].tasks);
+      for (let j = 0; j < projectArray[i].tasks.length; j++) {
+        const taskCard = document.createElement("div");
+        taskCard.classList.add("task-card");
+        taskCard.dataset.task = projectArray[i].tasks[j].name;
+        taskCard.style.backgroundColor = projectArray[i].tasks[j].backgroundClr;
+        taskCard.style.color = projectArray[i].tasks[j].textClr;
+
+        const taskCardHeader = document.createElement("h3");
+        taskCardHeader.classList.add("task-card-header");
+        taskCardHeader.textContent = projectArray[i].tasks[j].name;
+
+        const taskCardDesc = document.createElement("p");
+        taskCardDesc.classList.add("task-card-desc");
+        taskCardDesc.textContent = projectArray[i].tasks[j].desc;
+
+        const taskCardDate = document.createElement("p");
+        taskCardDate.classList.add("task-card-date");
+        taskCardDate.textContent = projectArray[i].tasks[j].date;
+
+        const taskCardDel = document.createElement("div");
+        taskCardDel.classList.add("task-card-del");
+        taskCardDel.textContent = "X";
+        taskCardDel.dataset.cardToDelete = projectArray[i].tasks[j].name;
+
+        taskCardDiv.appendChild(taskCard);
+        taskCard.appendChild(taskCardHeader);
+        taskCard.appendChild(taskCardDesc);
+        taskCard.appendChild(taskCardDate);
+        taskCard.appendChild(taskCardDel);
+        mainProjectDiv.appendChild(taskCardDiv);
+      }
     }
-  }
-  for (let j = 0; j < tasksToRender[0].length; j++) {
-    console.log(tasksToRender);
-    const index = taskArray.findIndex(
-      (element) => element.name === tasksToRender[0][j]
-    );
-    console.log(index);
-    const taskCard = document.createElement("div");
-    taskCard.classList.add("task-card");
-    taskCard.dataset.task = taskArray[index].name;
-    taskCard.style.backgroundColor = taskArray[index].backgroundClr;
-    taskCard.style.color = taskArray[index].textClr;
-
-    const taskCardHeader = document.createElement("h3");
-    taskCardHeader.classList.add("task-card-header");
-    taskCardHeader.textContent = taskArray[index].name;
-
-    const taskCardDesc = document.createElement("p");
-    taskCardDesc.classList.add("task-card-desc");
-    taskCardDesc.textContent = taskArray[index].desc;
-
-    const taskCardDate = document.createElement("p");
-    taskCardDate.classList.add("task-card-date");
-    taskCardDate.textContent = taskArray[index].date;
-
-    const taskCardDel = document.createElement("div");
-    taskCardDel.classList.add("task-card-del");
-    taskCardDel.textContent = "X";
-    taskCardDel.dataset.cardToDelete = taskArray[index].name;
-
-    taskCardDiv.appendChild(taskCard);
-    taskCard.appendChild(taskCardHeader);
-    taskCard.appendChild(taskCardDesc);
-    taskCard.appendChild(taskCardDate);
-    taskCard.appendChild(taskCardDel);
-    mainProjectDiv.appendChild(taskCardDiv);
   }
 }
