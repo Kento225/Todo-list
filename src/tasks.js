@@ -5,6 +5,7 @@ import { renderTask } from "./render";
 import { clearMainWindow } from "./render";
 import { checkStorage } from "./project";
 import { updateStorage } from "./project";
+import { renderTasksOnLaunch } from "./render";
 
 export const taskArray = JSON.parse(localStorage.getItem("tasks") || "[]");
 
@@ -47,7 +48,7 @@ const task = {
   backgroundClr: "#d0e0e3",
   textClr: "#000000",
   project: "Example",
-  rendered: false,
+  rendered: true,
 };
 
 checkStorage(taskArray, "tasks", task);
@@ -62,7 +63,7 @@ taskSubmitBtn.addEventListener("click", (e) => {
   }
   const task = createTask(tName, tDesc, tDate, tImportant, tProject);
   addTaskArray(task);
-  renderTask(taskArray);
+  renderTask(projectArray, taskArray);
   modalClose(taskModal, tFormArr);
   updateStorage(taskArray, "tasks");
 });
@@ -128,6 +129,4 @@ export function deleteTask(elem) {
   updateStorage(taskArray, "tasks");
 }
 
-taskArray.forEach((element) => (element.rendered = false));
-
-renderTask(taskArray);
+renderTasksOnLaunch();

@@ -32,18 +32,32 @@ const pForm = document.querySelector(".pmodal-content");
 const pFormArr = pForm.elements;
 
 // Example project object
-const project = {
-  name: "Example",
-  desc: "Example",
-  rendered: false,
-  tasks: [],
+const exampleProject = () => {
+  const task = {
+    name: "Example",
+    desc: "Example",
+    date: "2023-04-27",
+    backgroundClr: "#d0e0e3",
+    textClr: "#000000",
+    project: "Example",
+    rendered: true,
+  };
+
+  const project = {
+    name: "Example",
+    desc: "Example",
+    rendered: true,
+    tasks: [task],
+  };
+
+  return project;
 };
 
 export const projectArray = JSON.parse(
   localStorage.getItem("projects") || "[]"
 );
 
-checkStorage(projectArray, "projects", project);
+checkStorage(projectArray, "projects", exampleProject());
 
 console.log(projectArray);
 
@@ -79,14 +93,17 @@ window.addEventListener("click", (e) => {
 });
 
 export function projectDelete(elem) {
+  console.log(elem.target.dataset);
   mainScreen.innerHTML = "";
-  for (let i = 0; i < projectArray.length; i++) {
+  for (let i = projectArray.length - 1; i >= 0; i--) {
     if (elem.target.dataset.delProjectName === projectArray[i].name) {
-      for (let j = taskArray.length - 1; j >= 0; j--) {
-        if (taskArray.includes(projectArray[i].tasks[j])) {
-          taskArray.splice(j, 1);
+      console.log(projectArray[i].tasks);
+      taskArray.forEach((item, index, arr) => {
+        if (item.project === projectArray[i].name) {
+          console.log(index);
+          arr.splice(index, 1);
         }
-      }
+      });
       projectArray.splice(i, 1);
       const sbProjectNodeList = document.querySelectorAll(".project-div");
       for (let i = 0; i < sbProjectNodeList.length; i++) {

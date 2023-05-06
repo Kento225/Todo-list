@@ -2,6 +2,7 @@ import { projectArray } from "./project";
 import { taskArray } from "./tasks";
 import { deleteTask } from "./tasks";
 import { projectDelete } from "./project";
+import { updateStorage } from "./project";
 
 const sidebar = document.querySelector(".sidebar");
 export const mainScreen = document.querySelector(".main-screen");
@@ -60,36 +61,57 @@ export function renderProjectSb(projectArray) {
 export function clearMainWindow() {
   mainScreen.innerHTML = "";
 }
-export function renderTask(taskArray) {
+export function renderTask(projectArray, taskArray) {
   // Puts all unordered lists of projects into an array
   const projectNodeList = document.querySelectorAll(".project-ul");
-  for (let i = 0; i < taskArray.length; i++) {
-    if (taskArray[i].rendered === true) {
-      continue;
+
+  taskArray.forEach((task) => {
+    if (task.rendered === true) {
+      return;
     }
+    console.log(projectArray);
     //Creates a list item for a task, and appends it into project list
     const taskLi = document.createElement("li");
     taskLi.classList.add("task-li");
-    projectArray.forEach((element) => {
-      if (element.name === taskArray[i].project) {
-        if (element.tasks.includes(taskArray[i]) === false) {
-          console.log("dododod");
-          element.tasks.push(taskArray[i]);
-        }
-      }
-    });
-    taskLi.dataset.sbTask = taskArray[i].name;
-    taskLi.style.backgroundColor = taskArray[i].backgroundClr;
-    taskLi.style.color = taskArray[i].textClr;
-    taskLi.textContent = `${taskArray[i].name}`;
+    projectArray
+      .filter((project) => project.name === task.project)
+      .forEach((element) => element.tasks.push(task));
+
+    taskLi.dataset.sbTask = task.name;
+    taskLi.style.backgroundColor = task.backgroundClr;
+    taskLi.style.color = task.textClr;
+    taskLi.textContent = `${task.name}`;
     projectNodeList.forEach((element) => {
-      if (element.dataset.projectName === taskArray[i].project) {
+      if (element.dataset.projectName === task.project) {
         element.appendChild(taskLi);
-        taskArray[i].rendered = true;
-        return element;
+        task.rendered = true;
       }
     });
-  }
+  });
+  console.log(projectArray);
+  console.log(taskArray);
+  updateStorage(projectArray, "projects");
+}
+
+export function renderTasksOnLaunch() {
+  const projectNodeList = document.querySelectorAll(".project-ul");
+
+  projectArray.forEach((project) => {
+    project.tasks.forEach((task) => {
+      const taskLi = document.createElement("li");
+      taskLi.classList.add("task-li");
+      taskLi.dataset.sbTask = task.name;
+      taskLi.style.backgroundColor = task.backgroundClr;
+      taskLi.style.color = task.textClr;
+      taskLi.textContent = `${task.name}`;
+      task.rendered = true;
+      projectNodeList.forEach((element) => {
+        if (element.dataset.projectName === task.project) {
+          element.appendChild(taskLi);
+        }
+      });
+    });
+  });
 }
 
 //Renders a clicked project on the main screen
