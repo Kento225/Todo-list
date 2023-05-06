@@ -1,9 +1,16 @@
+import { updateStorage } from "./project";
+
 const darkModeBtn = document.querySelector(".dark-mode");
 darkModeBtn.addEventListener("click", (e) => {
   darkModeEnable();
 });
 
-let darkMode = false;
+if (!localStorage.getItem("dark-mode")) {
+  console.log(!localStorage.getItem("dark-mode"));
+  localStorage.setItem("dark-mode", "light");
+}
+
+let darkMode = localStorage.getItem("dark-mode");
 
 const darkModeEnable = function () {
   const root = document.querySelector(":root");
@@ -16,17 +23,42 @@ const darkModeEnable = function () {
   const lightModeBackground = "#ffffff";
   const lightModeInputBack = "#DBDBDB";
 
-  if (darkMode === false) {
+  if (darkMode === "light") {
     root.style.setProperty("--background-clr", darkModeBackground);
     root.style.setProperty("--text-clr", darkModeText);
     root.style.setProperty("--input-background", darkModeInputBack);
 
-    darkMode = true;
-  } else if (darkMode === true) {
+    darkMode = "dark";
+  } else if (darkMode === "dark") {
     root.style.setProperty("--background-clr", lightModeBackground);
     root.style.setProperty("--text-clr", lightModeText);
     root.style.setProperty("--input-background", lightModeInputBack);
 
-    darkMode = false;
+    darkMode = "light";
+  }
+  localStorage.setItem("dark-mode", darkMode);
+  console.log(darkMode);
+};
+
+const darkModeOnLaunch = function () {
+  const root = document.querySelector(":root");
+
+  const darkModeText = "#FEFFEC";
+  const darkModeBackground = "#0f0e12";
+  const darkModeInputBack = "#262629";
+
+  const lightModeText = "#0f0e12";
+  const lightModeBackground = "#ffffff";
+  const lightModeInputBack = "#DBDBDB";
+
+  if (darkMode === "dark") {
+    root.style.setProperty("--background-clr", darkModeBackground);
+    root.style.setProperty("--text-clr", darkModeText);
+    root.style.setProperty("--input-background", darkModeInputBack);
+  } else if (darkMode === "light") {
+    root.style.setProperty("--background-clr", lightModeBackground);
+    root.style.setProperty("--text-clr", lightModeText);
+    root.style.setProperty("--input-background", lightModeInputBack);
   }
 };
+darkModeOnLaunch();
