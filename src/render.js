@@ -3,6 +3,8 @@ import { taskArray } from "./tasks";
 import { deleteTask } from "./tasks";
 import { projectDelete } from "./project";
 import { updateStorage } from "./project";
+import { format } from "date-fns";
+import { parseISO } from "date-fns";
 
 const sidebar = document.querySelector(".sidebar");
 export const mainScreen = document.querySelector(".main-screen");
@@ -166,7 +168,8 @@ export function renderTaskCard(projectArray, taskArray, mainProjectDiv, elem) {
 
         const taskCardDate = document.createElement("p");
         taskCardDate.classList.add("task-card-date");
-        taskCardDate.textContent = projectArray[i].tasks[j].date;
+        taskCardDate.textContent =
+          format(parseISO(projectArray[i].tasks[j].date), "PPPP") || "";
 
         const taskCardDel = document.createElement("div");
         taskCardDel.classList.add("task-card-del");
@@ -182,4 +185,36 @@ export function renderTaskCard(projectArray, taskArray, mainProjectDiv, elem) {
       }
     }
   }
+}
+
+export function renderDue(arr) {
+  mainScreen.innerHTML = "";
+  const taskCardDiv = document.createElement("div");
+  taskCardDiv.classList.add("task-card-div");
+
+  arr.forEach((task) => {
+    const taskCard = document.createElement("div");
+    taskCard.classList.add("task-card");
+    taskCard.dataset.task = task.name;
+    taskCard.style.backgroundColor = task.backgroundClr;
+    taskCard.style.color = task.textClr;
+
+    const taskCardHeader = document.createElement("h3");
+    taskCardHeader.classList.add("task-card-header");
+    taskCardHeader.textContent = task.name;
+
+    const taskCardDesc = document.createElement("p");
+    taskCardDesc.classList.add("task-card-desc");
+    taskCardDesc.textContent = task.desc;
+
+    const taskCardDate = document.createElement("p");
+    taskCardDate.classList.add("task-card-date");
+    taskCardDate.textContent = format(parseISO(task.date), "PPPP") || "";
+
+    taskCardDiv.appendChild(taskCard);
+    taskCard.appendChild(taskCardHeader);
+    taskCard.appendChild(taskCardDesc);
+    taskCard.appendChild(taskCardDate);
+  });
+  mainScreen.appendChild(taskCardDiv);
 }

@@ -192,3 +192,15 @@ label{
     left: 90%;
     
 }
+.category-buttons{
+    display:flex;
+    flex-direction: column;
+}
+.category-buttons div{
+    text-align: center;
+    cursor: pointer;
+    border-bottom:solid 1px var(--text-clr);
+}
+.category-buttons div:hover{
+    background-color: rgba(0, 0, 0, 0.3)
+}

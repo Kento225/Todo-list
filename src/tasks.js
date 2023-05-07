@@ -44,7 +44,7 @@ function createTask(tName, tDesc, tDate, tImportant, tProject) {
 const task = {
   name: "Example",
   desc: "Example",
-  date: "2023-04-27",
+  date: "2023-05-07",
   backgroundClr: "#d0e0e3",
   textClr: "#000000",
   project: "Example",
@@ -58,7 +58,7 @@ console.log(taskArray);
 const taskSubmitBtn = document.querySelector(".tsubmit");
 
 taskSubmitBtn.addEventListener("click", (e) => {
-  if (tName.value === "" || tProject.value === "") {
+  if (tName.value === "" || tProject.value === "" || tDate.value === "") {
     return;
   }
   const task = createTask(tName, tDesc, tDate, tImportant, tProject);

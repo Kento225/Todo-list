@@ -36,7 +36,7 @@ const exampleProject = () => {
   const task = {
     name: "Example",
     desc: "Example",
-    date: "2023-04-27",
+    date: "2023-05-07",
     backgroundClr: "#d0e0e3",
     textClr: "#000000",
     project: "Example",

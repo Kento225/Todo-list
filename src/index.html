@@ -43,7 +43,7 @@
           maxlength="100"
         ></textarea>
         <label for="tdate">Due Date</label>
-        <input type="date" id="tdate" name="task-due-date" />
+        <input type="date" id="tdate" name="task-due-date" required />
         <div class="color-div">
           <div class="background-color-div">
             <label for="background-clr">Background Color</label>
@@ -66,6 +66,11 @@
       </div>
       <div class="main-screen"></div>
       <div class="sidebar">
+        <div class="category-buttons">
+          <div class="all-tasks">All Tasks</div>
+          <div class="due-today">Due Today</div>
+          <div class="due-seven">Due in 7 days</div>
+        </div>
         <div class="sidebar-buttons">
           <button class="task-button">Create a task</button>
           <button class="project-button">Create a project</button>
