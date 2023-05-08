@@ -5,14 +5,6 @@ import isToday from "date-fns/isToday";
 import parseISO from "date-fns/parseISO";
 import isThisWeek from "date-fns/isThisWeek";
 
-const exampleDate = taskArray[0].date;
-console.log(isToday(parseISO(exampleDate)));
-
-console.log(new Date());
-taskArray.filter((task) => {
-  task.date === new Date();
-});
-
 const dueToday = () => {
   const dueTodayArr = taskArray.filter((task) => isToday(parseISO(task.date)));
   console.log(dueTodayArr);
