@@ -7,7 +7,6 @@ import { mainScreen } from "./render";
 
 export function checkStorage(array, name, item) {
   if (!localStorage.getItem(name)) {
-    console.log("works");
     array.push(item);
     localStorage.setItem(name, JSON.stringify(array));
   }
@@ -59,8 +58,6 @@ export const projectArray = JSON.parse(
 
 checkStorage(projectArray, "projects", exampleProject());
 
-console.log(projectArray);
-
 // Factory function to create project objects
 const createProject = (pName, pDesc) => {
   return {
@@ -93,14 +90,11 @@ window.addEventListener("click", (e) => {
 });
 
 export function projectDelete(elem) {
-  console.log(elem.target.dataset);
   mainScreen.innerHTML = "";
   for (let i = projectArray.length - 1; i >= 0; i--) {
     if (elem.target.dataset.delProjectName === projectArray[i].name) {
-      console.log(projectArray[i].tasks);
       taskArray.forEach((item, index, arr) => {
         if (item.project === projectArray[i].name) {
-          console.log(index);
           arr.splice(index, 1);
         }
       });
@@ -114,8 +108,6 @@ export function projectDelete(elem) {
           sbProjectNodeList[i].remove();
         }
       }
-      console.log(projectArray);
-      console.log(taskArray);
     }
   }
   updateStorage(projectArray, "projects");

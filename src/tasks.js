@@ -53,8 +53,6 @@ const task = {
 
 checkStorage(taskArray, "tasks", task);
 
-console.log(taskArray);
-
 const taskSubmitBtn = document.querySelector(".tsubmit");
 
 taskSubmitBtn.addEventListener("click", (e) => {

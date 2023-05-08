@@ -7,7 +7,6 @@ import isThisWeek from "date-fns/isThisWeek";
 
 const dueToday = () => {
   const dueTodayArr = taskArray.filter((task) => isToday(parseISO(task.date)));
-  console.log(dueTodayArr);
   renderDue(dueTodayArr);
 };
 
@@ -18,7 +17,6 @@ const dueWeek = () => {
   const dueWeekArr = taskArray.filter((task) =>
     isThisWeek(parseISO(task.date))
   );
-  console.log(dueWeekArr);
   renderDue(dueWeekArr);
 };
 

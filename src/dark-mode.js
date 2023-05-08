@@ -6,7 +6,6 @@ darkModeBtn.addEventListener("click", (e) => {
 });
 
 if (!localStorage.getItem("dark-mode")) {
-  console.log(!localStorage.getItem("dark-mode"));
   localStorage.setItem("dark-mode", "light");
 }
 
@@ -37,7 +36,6 @@ const darkModeEnable = function () {
     darkMode = "light";
   }
   localStorage.setItem("dark-mode", darkMode);
-  console.log(darkMode);
 };
 
 const darkModeOnLaunch = function () {

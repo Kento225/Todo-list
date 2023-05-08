@@ -71,7 +71,6 @@ export function renderTask(projectArray, taskArray) {
     if (task.rendered === true) {
       return;
     }
-    console.log(projectArray);
     //Creates a list item for a task, and appends it into project list
     const taskLi = document.createElement("li");
     taskLi.classList.add("task-li");
@@ -90,8 +89,6 @@ export function renderTask(projectArray, taskArray) {
       }
     });
   });
-  console.log(projectArray);
-  console.log(taskArray);
   updateStorage(projectArray, "projects");
 }
 
