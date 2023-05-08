@@ -5,3 +5,4 @@ import "./project";
 import "./render";
 import "./dark-mode";
 import "./categories";
+import "./logo.js";
