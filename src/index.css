@@ -204,3 +204,6 @@ label{
 .category-buttons div:hover{
     background-color: rgba(0, 0, 0, 0.3)
 }
+.logo-letter{
+    font-family: 'Sigmar', sans-serif;
+}

@@ -107,11 +107,10 @@ export function deleteTask(elem) {
     }
   }
   for (let i = 0; i < projectArray.length; i++) {
-    if (projectArray[i].tasks.includes(elem.target.dataset.cardToDelete)) {
-      const index = projectArray[i].tasks.indexOf(
-        elem.target.dataset.cardToDelete
-      );
-      projectArray[i].tasks.splice(index, 1);
+    for (let j = 0; j < projectArray[i].tasks.length; j++) {
+      if (projectArray[i].tasks[j].name === elem.target.dataset.cardToDelete) {
+        projectArray[i].tasks.splice(j, 1);
+      }
     }
   }
   const taskNodeList = document.querySelectorAll(".task-card");
@@ -127,6 +126,7 @@ export function deleteTask(elem) {
     }
   }
   updateStorage(taskArray, "tasks");
+  updateStorage(projectArray, "projects");
 }
 
 renderTasksOnLaunch();
